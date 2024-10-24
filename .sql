@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS dnd_bd;
 
 USE dnd_bd;
 
-CREATE TABLE class (
+CREATE TABLE IF NOT EXISTS class (
                        id INT PRIMARY KEY AUTO_INCREMENT,
                        index_name VARCHAR(255) UNIQUE,  -- Garante unicidade para o nome da classe
                        level INT,
@@ -21,13 +21,13 @@ CREATE TABLE class (
 
 
 /* Concluido Proficiencias existentes*/
-create table proficiencies(
+create table IF NOT EXISTS proficiencies(
                               index_name varchar(255) PRIMARY KEY,
                               name varchar(255)
 );
 
 /* Concluido Relaçao entre a classe e as proficiencias que ela dá */
-create table proficiencies_class(
+create table IF NOT EXISTS proficiencies_class(
                                     class_index varchar(255),
                                     proficiencies_index varchar(255),
                                     foreign key (class_index) references class(index_name),
@@ -36,7 +36,7 @@ create table proficiencies_class(
 );
 
 /* Concluido Poderes de uma classe*/
-CREATE TABLE features (
+CREATE TABLE IF NOT EXISTS features (
                           index_name VARCHAR(255) PRIMARY KEY,  -- Mantém o index_name como a chave primária
                           name VARCHAR(255) NOT NULL,
                           level INT,
@@ -46,7 +46,7 @@ CREATE TABLE features (
 
 
 /* Concluido relaçao entre a classe e os poderes que ela tem*/
-create table features_class(
+create table IF NOT EXISTS features_class(
                                class_index VARCHAR(255),
                                feature_index VARCHAR(255),
                                FOREIGN KEY (class_index) REFERENCES class(index_name),
@@ -55,14 +55,14 @@ create table features_class(
 );
 
 /* Concluido Skills de forma geral (forca, int etc)*/
-create table skills(
+create table IF NOT EXISTS skills(
                        index_name varchar(255) PRIMARY KEY ,
                        name varchar(255),
                        descricao JSON
 );
 
 /* Concluido Habilidades de forma geral (atletistmo etc)*/
-create table ability_scores(
+create table IF NOT EXISTS ability_scores(
                                index_name varchar(255) primary key,
                                name varchar(255),
                                full_name varchar(255),
@@ -70,7 +70,7 @@ create table ability_scores(
 );
 
 /* Concluido Relação entre skills e ability_scores (for, int etc)*/
-create table skill_ability_scores(
+create table IF NOT EXISTS skill_ability_scores(
                                      skill_index varchar(255),
                                      ability_score_index varchar(255),
                                      FOREIGN KEY (skill_index) REFERENCES skills(index_name),
@@ -79,7 +79,7 @@ create table skill_ability_scores(
 
 );
 /* Concluido - Tabela de racas*/
-create table races(
+create table IF NOT EXISTS races(
                       index_name varchar(255) primary key ,
                       name varchar(255),
                       speed int,                                     -- Velocidade da raca
@@ -90,7 +90,7 @@ create table races(
 );
 
 /* Concluido - Relacao entre racas e o bonus de habilidades*/
-create table races_ability_bonuses(
+create table IF NOT EXISTS races_ability_bonuses(
                                       race_index varchar(255),
                                       ability_score_index varchar(255),
                                       bonus int,
@@ -100,21 +100,21 @@ create table races_ability_bonuses(
                                       primary key (race_index)
 );
 
-create table languages(
+create table IF NOT EXISTS languages(
                           index_name varchar(255) primary key,
                           name varchar(255),
                           type varchar(255)
 );
 
 -- Tabela de traits
-CREATE TABLE traits (
+CREATE TABLE IF NOT EXISTS traits (
                         index_name VARCHAR(255) PRIMARY KEY,  -- Identificador único da trait
                         name VARCHAR(255) NOT NULL,
                         descricao JSON NOT NULL  -- Campo JSON para armazenar descrições detalhadas
 );
 
 -- Tabela de relacionamento entre races e traits
-CREATE TABLE race_traits (
+CREATE TABLE IF NOT EXISTS race_traits (
                              race_index VARCHAR(255),
                              trait_index VARCHAR(255),
                              FOREIGN KEY (race_index) REFERENCES races(index_name),
@@ -122,7 +122,7 @@ CREATE TABLE race_traits (
                              PRIMARY KEY (race_index, trait_index)
 );
 
-CREATE TABLE spells (
+CREATE TABLE IF NOT EXISTS spells (
                         index_name VARCHAR(255) PRIMARY KEY,  -- Identificador único da magia
                         name VARCHAR(255) NOT NULL,           -- Nome da magia
                         `desc` TEXT NOT NULL,                   -- Descrição da magia
@@ -142,7 +142,7 @@ CREATE TABLE spells (
                         subclasses JSON                       -- Subclasses que podem aprender a magia
 );
 
-create table personagem(
+create table  personagem(
                            id int primary key auto_increment,
                            name varchar(255),
                            class_index varchar(255),
