@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="titulo">Criação de Personagem</h1>
+</div>
+
+<div class="container mt-5" id="ContainerDeRaca">
+    <label for="raceSelect">Selecione a Raça:</label>
+    <select id="raceSelect" class="form-control">
+        <option value="">Carregando...</option>
+    </select>
+</div>
+
+<script>
+    // URL do endpoint de raças
+    const apiURL = 'https://www.dnd5eapi.co/api/races';
+
+    // Função para buscar e preencher as raças no dropdown
+    async function populateRaceDropdown() {
+        try {
+            const response = await fetch(apiURL);
+            const data = await response.json();
+
+            // Seleciona o dropdown e limpa quaisquer opções existentes
+            const raceSelect = document.getElementById('raceSelect');
+            raceSelect.innerHTML = '<option value="">Selecione uma raça</option>';
+
+            // Preenche o dropdown com as raças da API
+            data.results.forEach(race => {
+                const option = document.createElement('option');
+                option.value = race.index;
+                option.textContent = race.name;
+                raceSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Erro ao buscar as raças:', error);
+        }
+    }
+
+    // Chama a função ao carregar a página
+    document.addEventListener('DOMContentLoaded', populateRaceDropdown);
+</script>
+</body>
+</html>
