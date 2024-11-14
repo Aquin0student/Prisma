@@ -3,15 +3,12 @@ CREATE DATABASE IF NOT EXISTS dnd_bd;
 USE dnd_bd;
 
 CREATE TABLE IF NOT EXISTS class (
-                       id INT PRIMARY KEY AUTO_INCREMENT,
                        index_name VARCHAR(255) UNIQUE,  -- Garante unicidade para o nome da classe
                        level INT,
                        proficiency_bonus INT,
                        name VARCHAR(255),
                        hit_die INT,
                        multiclassing JSON,  -- Mantém como JSON
-                       spellcasting JSON,   -- Corrigido: nome estava incorreto
-                       spellcasting_ability JSON,
                        starting_equipment JSON,
                        starting_equipment_options JSON,
                        proficiency_choices JSON,
@@ -19,6 +16,14 @@ CREATE TABLE IF NOT EXISTS class (
                        subclasses JSON
 );
 
+
+CREATE TABLE spellcasting (
+                              class_index VARCHAR(255) NOT NULL,  -- Relaciona com a tabela de classes
+                              level INT,
+                              ability_score VARCHAR(255),
+                              spellcasting_details JSON,  -- Armazena detalhes como multiclassing, proficiency_choices, etc.
+                              FOREIGN KEY (class_index) REFERENCES class(index_name)
+);
 
 /* Concluido Proficiencias existentes*/
 create table IF NOT EXISTS proficiencies(
@@ -90,14 +95,10 @@ create table IF NOT EXISTS races(
 );
 
 /* Concluido - Relacao entre racas e o bonus de habilidades*/
-create table IF NOT EXISTS races_ability_bonuses(
-                                      race_index varchar(255),
-                                      ability_score_index varchar(255),
-                                      bonus int,
-                                      ability_bonuses JSON,
-                                      foreign key (race_index) references races(index_name),
-                                      foreign key (ability_score_index) references ability_scores(index_name),
-                                      primary key (race_index)
+CREATE TABLE IF NOT EXISTS races_ability_bonuses (
+                                                     race_index VARCHAR(255) PRIMARY KEY,          -- Garante uma linha única por raça
+                                                     ability_bonuses JSON,                         -- Lista de bônus de habilidades em JSON
+                                                     FOREIGN KEY (race_index) REFERENCES races(index_name)
 );
 
 create table IF NOT EXISTS languages(
@@ -115,11 +116,9 @@ CREATE TABLE IF NOT EXISTS traits (
 
 -- Tabela de relacionamento entre races e traits
 CREATE TABLE IF NOT EXISTS race_traits (
-                             race_index VARCHAR(255),
-                             trait_index VARCHAR(255),
-                             FOREIGN KEY (race_index) REFERENCES races(index_name),
-                             FOREIGN KEY (trait_index) REFERENCES traits(index_name),
-                             PRIMARY KEY (race_index, trait_index)
+                                           race_index VARCHAR(255) PRIMARY KEY,          -- Uma linha única para cada raça
+                                           traits JSON,                                  -- Campo JSON para armazenar todas as traits
+                                           FOREIGN KEY (race_index) REFERENCES races(index_name)
 );
 
 CREATE TABLE IF NOT EXISTS spells (
@@ -152,26 +151,34 @@ create table  personagem(
 
 );
 
-# A sequencia abaixo é um teste para validar se esta funcionando a insercao de valores. Para criar um personagem
-# é preciso ter uma class e uma race (considerando que no momento dessa mensagem, personagem so possui esses dois dados
-# INSERT INTO personagem (name, class_index, race_index)
-# VALUES ('Pipo o Hilário', 'bard', 'human');
-#
-# INSERT INTO class (index_name, name, level, ability_score_bonuses, proficiency_bonus, hit_die)
-# VALUES ('bard', 'Bard', 1, 0, 2, 8);
-#
-# INSERT INTO races (index_name, name, speed, alignment, age, size, size_description)
-# VALUES ('human', 'Human', 30, 'Neutral', 'Mature by age 18', 'Medium', 'Humans are versatile.');
-
-# Tabela para a relação entre a raça e as lingaguens que ela fala
-create table race_languages(
-                               languages_index varchar(255),
-                               race_index varchar(255),
-                               foreign key (race_index) references races(index_name),
-                               foreign key (languages_index) references languages(index_name),
-                               primary key (race_index, languages_index)
+# Tabela para a relação entre classe e as magias que ela possuiA
+create table class_spells(
+    class_index varchar(255),
+    spell_index varchar(255),
+    FOREIGN KEY (class_index) REFERENCES class(index_name)
 );
 
+# Tabela para a relação entre a raça e as lingaguens que ela fala
+CREATE TABLE IF NOT EXISTS race_languages (
+                                              race_index VARCHAR(255) PRIMARY KEY,  -- Garante uma linha única por raça
+                                              languages_index JSON,                 -- Armazena a lista de idiomas em JSON
+                                              FOREIGN KEY (race_index) REFERENCES races(index_name)
+);
+
+CREATE TABLE IF NOT EXISTS subrace (
+                                       index_name VARCHAR(255) PRIMARY KEY,
+                                       name VARCHAR(255),
+                                       description VARCHAR(255),
+                                       starting_proficiencies JSON,
+                                       language_options JSON
+);
+
+
+CREATE TABLE IF NOT EXISTS subrace_traits (
+                                              subrace_index VARCHAR(255),
+                                              traits JSON,
+                                              FOREIGN KEY (subrace_index) REFERENCES subrace(index_name)
+);
 
 
 # SESSAO PARA INSERIR DADOS NAS TABELAS BASICAS (ABILITY_SCORES ETC)
@@ -185,6 +192,8 @@ VALUES
     ('cha', 'Charisma', 'Charisma', '{"en": "Charisma represents force of personality."}');
 
 
-
+# SESSAO PARA RESETAR APOS TESTE
+# RESETAR O ID DA TABELA PERSONAGEM PARA 1 (NAO DEVE TER NENHUM REGISTRO PARA FUNCIONAR
+# ALTER TABLE personagem AUTO_INCREMENT = 1;
 
 

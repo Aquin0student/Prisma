@@ -1,58 +1,9 @@
 const axios = require('axios');
 const mysql = require('mysql2/promise');
 const {data} = require("express-session/session/cookie");
-const db = require('./config/db.js');  // Importa a conexão com o banco
+const db = require('./Back/config/db.js');  // Importa a conexão com o banco
 
-// Função principal para inserir a raça
-// async function inserirRaca(index) {
-//     try {
-//
-//         // Obter os dados da API
-//         const racaResponse = await axios.get(`https://www.dnd5eapi.co/api/races/${index}`);
-//         const racaData = racaResponse.data;
-//
-//         // Inserir os dados na tabela 'races'
-//         await db.execute(
-//             `INSERT INTO races (index_name, name, speed, alignment, age, size, size_description)
-//              VALUES (?, ?, ?, ?, ?, ?, ?)`,
-//             [
-//                 racaData.index,
-//                 racaData.name,
-//                 racaData.speed,
-//                 racaData.alignment,
-//                 racaData.age,
-//                 racaData.size,
-//                 racaData.size_description
-//             ]
-//         );
-//
-//         // Montar um objeto JSON com os bônus de habilidade
-//         const abilityBonuses = {};
-//         for (const bonus of racaData.ability_bonuses) {
-//             // // Garantir que a habilidade existe na tabela ability_scores
-//             // await garantirAbilityScore(db, bonus.ability_score);
-//
-//             // Adicionar o bônus ao objeto JSON
-//             abilityBonuses[bonus.ability_score.index] = bonus.bonus;
-//         }
-//
-//         // Inserir o JSON de bônus de habilidade em uma única linha
-//         await db.execute(
-//             `INSERT INTO races_ability_bonuses (race_index, ability_bonuses)
-//              VALUES (?, ?)`,
-//             [
-//                 racaData.index,
-//                 JSON.stringify(abilityBonuses)
-//             ]
-//         );
-//
-//         console.log(`Raça '${racaData.name}' inserida com sucesso!`);
-//         await db.end();  // Fechar conexão
-//
-//     } catch (error) {
-//         console.error('Erro ao inserir a raça:', error);
-//     }
-// }
+
 //
 // // Função para verificar e inserir uma habilidade se ela não existir
 // async function garantirAbilityScore(db, abilityScore) {
@@ -291,45 +242,366 @@ const db = require('./config/db.js');  // Importa a conexão com o banco
 //     }
 // }
 
+// async function inserirTraits() {
+//     try {
+//         // Obter a lista de traits da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/traits');
+//         const traits = response.data.results;
+//
+//         for (const trait of traits) {
+//             // Para cada trait, obter detalhes
+//             const traitResponse = await axios.get(`https://www.dnd5eapi.co/api/traits/${trait.index}`);
+//             const traitData = traitResponse.data;
+//
+//             // Inserir a trait no banco de dados
+//             await db.execute(
+//                 `INSERT INTO traits (
+//                     index_name, name, descricao
+//                 ) VALUES (?, ?, ?)`,
+//                 [
+//                     traitData.index,
+//                     traitData.name,
+//                     JSON.stringify(traitData.desc || [])  // Descrição como JSON
+//                 ]
+//             );
+//
+//             console.log(`Trait '${traitData.name}' inserida com sucesso!`);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as traits:', error);
+//     }
+// }
+//
 
-async function inserirTraits() {
+// async function inserirRaces() {
+//     try {
+//         // Obter a lista de races da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/races');
+//         const races = response.data.results;
+//
+//         for (const race of races) {
+//             // Para cada raça, buscar detalhes
+//             const raceResponse = await axios.get(`https://www.dnd5eapi.co/api/races/${race.index}`);
+//             const raceData = raceResponse.data;
+//
+//             // Inserir a raça no banco de dados
+//             await db.execute(
+//                 `INSERT INTO races (
+//                     index_name, name, speed, alignment, age, size, size_description
+//                 ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+//                 [
+//                     raceData.index,
+//                     raceData.name,
+//                     raceData.speed,
+//                     raceData.alignment,
+//                     raceData.age,
+//                     raceData.size,
+//                     raceData.size_description
+//                 ]
+//             );
+//
+//             console.log(`Raça '${raceData.name}' inserida com sucesso!`);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as races:', error);
+//     }
+// }
+//
+
+// async function inserirRaceLanguages() {
+//     try {
+//         // Obter a lista de races da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/races');
+//         const races = response.data.results;
+//
+//         for (const race of races) {
+//             // Para cada raça, buscar detalhes
+//             const raceResponse = await axios.get(`https://www.dnd5eapi.co/api/races/${race.index}`);
+//             const raceData = raceResponse.data;
+//
+//             // Coletar todos os idiomas que a raça conhece
+//             const languages = raceData.languages.map(language => language.index);
+//
+//             // Inserir na tabela `race_languages` com todos os idiomas como um JSON
+//             await db.execute(
+//                 `INSERT INTO race_languages (race_index, languages_index)
+//                 VALUES (?, ?)
+//                 ON DUPLICATE KEY UPDATE languages_index = VALUES(languages_index)`,
+//                 [
+//                     raceData.index,
+//                     JSON.stringify(languages)  // Converter a array de idiomas para JSON
+//                 ]
+//             );
+//             console.log(`Idiomas ${JSON.stringify(languages)} inseridos para a raça '${raceData.index}'.`);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as linguagens das races:', error);
+//     }
+// }
+
+// async function inserirAbilityBonuses() {
+//     try {
+//         // Obter a lista de races da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/races');
+//         const races = response.data.results;
+//
+//         for (const race of races) {
+//             // Para cada raça, buscar detalhes
+//             const raceResponse = await axios.get(`https://www.dnd5eapi.co/api/races/${race.index}`);
+//             const raceData = raceResponse.data;
+//
+//             // Coletar todos os bônus de habilidade que a raça concede
+//             const abilityBonuses = raceData.ability_bonuses.map(bonus => ({
+//                 ability: bonus.ability_score.index,
+//                 bonus: bonus.bonus
+//             }));
+//
+//             // Inserir na tabela `races_ability_bonuses` com os bônus de habilidades como JSON
+//             await db.execute(
+//                 `INSERT INTO races_ability_bonuses (race_index, ability_bonuses)
+//                 VALUES (?, ?)
+//                 ON DUPLICATE KEY UPDATE ability_bonuses = VALUES(ability_bonuses)`,
+//                 [
+//                     raceData.index,
+//                     JSON.stringify(abilityBonuses)  // Converter a lista de bônus para JSON
+//                 ]
+//             );
+//             console.log(`Bônus de habilidade ${JSON.stringify(abilityBonuses)} inseridos para a raça '${raceData.index}'.`);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir os bônus de habilidade das raças:', error);
+//     }
+// }
+
+// async function inserirRaceTraits() {
+//     try {
+//         // Obter a lista de races da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/races');
+//         const races = response.data.results;
+//
+//         for (const race of races) {
+//             // Para cada raça, buscar detalhes
+//             const raceResponse = await axios.get(`https://www.dnd5eapi.co/api/races/${race.index}`);
+//             const raceData = raceResponse.data;
+//
+//             // Coletar todas as traits que a raça possui
+//             const traits = raceData.traits.map(trait => trait.index);
+//
+//             // Inserir na tabela `race_traits` com as traits como JSON
+//             await db.execute(
+//                 `INSERT INTO race_traits (race_index, traits)
+//                 VALUES (?, ?)
+//                 ON DUPLICATE KEY UPDATE traits = VALUES(traits)`,
+//                 [
+//                     raceData.index,
+//                     JSON.stringify(traits)  // Converter a lista de traits para JSON
+//                 ]
+//             );
+//             console.log(`Traits ${JSON.stringify(traits)} inseridas para a raça '${raceData.index}'.`);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as traits das raças:', error);
+//     }
+// }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// async function inserirClasses() {
+//     try {
+//         // Obter a lista de classes da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/classes');
+//         const classes = response.data.results;
+//
+//         for (const classe of classes) {
+//             // Para cada classe, buscar detalhes
+//             const classResponse = await axios.get(`https://www.dnd5eapi.co/api/classes/${classe.index}`);
+//             const classData = classResponse.data;
+//
+//             // Inserir a classe na tabela `class`
+//             await db.execute(
+//                 `INSERT INTO class (
+//                     index_name, level, proficiency_bonus, name, hit_die,
+//                     multiclassing, starting_equipment, starting_equipment_options,
+//                     proficiency_choices, saving_throws, subclasses
+//                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+//                  ON DUPLICATE KEY UPDATE
+//                                       level = VALUES(level),
+//                                       proficiency_bonus = VALUES(proficiency_bonus),
+//                                       hit_die = VALUES(hit_die),
+//                                       multiclassing = VALUES(multiclassing),
+//                                       starting_equipment = VALUES(starting_equipment),
+//                                       starting_equipment_options = VALUES(starting_equipment_options),
+//                                       proficiency_choices = VALUES(proficiency_choices),
+//                                       saving_throws = VALUES(saving_throws),
+//                                       subclasses = VALUES(subclasses);`,
+//                 [
+//                     classData.index,
+//                     classData.level || 1,
+//                     classData.prof_bonus || 2,
+//                     classData.name,
+//                     classData.hit_die || 8,
+//                     JSON.stringify(classData.multiclassing || {}),
+//                     JSON.stringify(classData.starting_equipment || []),
+//                     JSON.stringify(classData.starting_equipment_options || []),
+//                     JSON.stringify(classData.proficiency_choices || []),
+//                     JSON.stringify(classData.saving_throws || []),
+//                     JSON.stringify(classData.subclasses || [])
+//                 ]
+//             );
+//             console.log(`Classe '${classData.name}' inserida com sucesso.`);
+//
+//             // Se a classe tiver informações de spellcasting, insira na nova tabela
+//             if (classData.spellcasting) {
+//                 const spellcasting = classData.spellcasting;
+//                 const spellLevel = spellcasting.level || 0;
+//                 const spellAbility = spellcasting.spellcasting_ability ? spellcasting.spellcasting_ability.name : 'Unknown'; // Corrigido para acessar `spellcasting_ability`
+//
+//                 await db.execute(
+//                     `INSERT INTO spellcasting (
+//                         class_index, level, ability_score, spellcasting_details
+//                     ) VALUES (?, ?, ?, ?)
+//                      ON DUPLICATE KEY UPDATE
+//                                           level = VALUES(level),
+//                                           ability_score = VALUES(ability_score),
+//                                           spellcasting_details = VALUES(spellcasting_details);`,
+//                     [
+//                         classData.index,
+//                         spellLevel,
+//                         spellAbility, // Agora passando o nome correto da habilidade
+//                         JSON.stringify(spellcasting)  // Armazena detalhes em JSON
+//                     ]
+//                 );
+//                 console.log(`Spellcasting para a classe '${classData.name}' inserido com sucesso.`);
+//             }
+//
+//             // Pausar por 500ms para evitar sobrecarregar a API
+//             await sleep(500);
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as classes:', error);
+//     }
+// }
+
+
+async function deletarClasses() {
     try {
-        // Obter a lista de traits da API
-        const response = await axios.get('https://www.dnd5eapi.co/api/traits');
-        const traits = response.data.results;
 
-        for (const trait of traits) {
-            // Para cada trait, obter detalhes
-            const traitResponse = await axios.get(`https://www.dnd5eapi.co/api/traits/${trait.index}`);
-            const traitData = traitResponse.data;
+        await db.execute(`DELETE FROM class;`);
+        console.log('Todas as classes foram deletadas com sucesso.');
 
-            // Inserir a trait no banco de dados
-            await db.execute(
-                `INSERT INTO traits (
-                    index_name, name, descricao
-                ) VALUES (?, ?, ?)`,
-                [
-                    traitData.index,
-                    traitData.name,
-                    JSON.stringify(traitData.desc || [])  // Descrição como JSON
-                ]
-            );
 
-            console.log(`Trait '${traitData.name}' inserida com sucesso!`);
-        }
-
-        // Fechar conexão com o banco de dados
-        await db.end();
     } catch (error) {
-        console.error('Erro ao inserir as traits:', error);
+        console.error('Erro ao deletar classes:', error);
+    } finally {
+
+        await db.end();
     }
 }
 
-inserirTraits();
+// async function inserirFeaturesPorClasse() {
+//     try {
+//         // Obter a lista de classes da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/classes');
+//         const classes = response.data.results;
+//
+//         for (const classe of classes) {
+//             // Obter as features para a classe
+//             const featuresResponse = await axios.get(`https://www.dnd5eapi.co/api/classes/${classe.index}/features`);
+//             const features = featuresResponse.data.results;
+//
+//             // Inserir cada feature na tabela `features_class`
+//             for (const feature of features) {
+//                 await db.execute(
+//                     `INSERT INTO features_class (class_index, feature_index)
+//                     VALUES (?, ?)
+//                     ON DUPLICATE KEY UPDATE feature_index = VALUES(feature_index)`,
+//                     [classe.index, feature.index]
+//                 );
+//                 console.log(`Feature '${feature.name}' da classe '${classe.name}' inserida com sucesso.`);
+//             }
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as features das classes:', error);
+//     }
+// }
+
+// Executar a função para inserir as features
+
+// async function inserirProficienciasClasses() {
+//     try {
+//         // Obter a lista de classes da API
+//         const response = await axios.get('https://www.dnd5eapi.co/api/classes');
+//         const classes = response.data.results;
+//
+//         for (const classe of classes) {
+//             // Para cada classe, buscar detalhes
+//             const classResponse = await axios.get(`https://www.dnd5eapi.co/api/classes/${classe.index}`);
+//             const classData = classResponse.data;
+//
+//             // Inserir as proficiências na tabela `proficiencies_class`
+//             if (classData.proficiencies && classData.proficiencies.length > 0) {
+//                 for (const proficiency of classData.proficiencies) {
+//                     await db.execute(
+//                         `INSERT INTO proficiencies_class (class_index, proficiencies_index)
+//                         VALUES (?, ?)
+//                         ON DUPLICATE KEY UPDATE proficiencies_index = VALUES(proficiencies_index);`,
+//                         [
+//                             classData.index,
+//                             proficiency.index  // Certifique-se de que `proficiency.index` é a propriedade correta
+//                         ]
+//                     );
+//                     console.log(`Proficiencia '${proficiency.name}' inserida para a classe '${classData.name}'.`);
+//                 }
+//             }
+//         }
+//
+//         // Fechar conexão com o banco de dados
+//         await db.end();
+//     } catch (error) {
+//         console.error('Erro ao inserir as proficiências das classes:', error);
+//     }
+// }
+
+
+
+//deletarClasses();
+
+async function inserirMagiasNasClasses(req, res) {
+
+}
+
+
+// A funcao abaixo faz duas coias: inserir classes e inserir a class na tabela
+// spellcasting que se refere a classes que usam magia, contendo descricao
+// e a ability_score necessaria para usar a magia
+//inserirClasses();
+
 
 // Testar inserção da raça "human"
 // inserirRaca('human');
-
 
 //inserirTodasAsLinguagens();
 //inserirTodasAsProficiencias();
@@ -337,3 +609,10 @@ inserirTraits();
 //relacionarSkillsAbilityScores();
 //inserirMagias();
 //inserirFeatures();
+// inserirTraits();
+// inserirRaces();
+// inserirRaceLanguages();
+//inserirAbilityBonuses();
+// inserirRaceTraits();
+//inserirFeaturesPorClasse();
+//inserirProficienciasClasses();

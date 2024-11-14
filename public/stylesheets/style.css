@@ -1,34 +1,20 @@
-/* Customização da Navbar */
-.navbar {
-  background-color: #333;
+body {
+  justify-content: center;
+  align-items: flex-start; /* Alinha no topo */
+  height: 100vh;          /* Altura total da janela */
+  margin: 0;              /* Remove margens padrão */
 }
 
-.navbar-brand, .nav-link {
-  color: #fff !important;
-}
-
-.nav-link:hover {
-  color: #ddd !important;
-}
-
-/* Centralizando os botões no meio da tela */
 .container {
-  min-height: 100vh;
+  text-align: center;      /* Centraliza o texto dentro do contêiner */
 }
 
-/* Ajustes adicionais para os botões */
-.btn-lg {
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 10px;
+.titulo {
+  margin-top: 40px;        /* Ajuste conforme necessário */
 }
 
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+.paragrafo {
+  text-align: left; /* Alinha o parágrafo à esquerda */
+  margin-top: 20px; /* Adiciona espaço acima do parágrafo */
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
