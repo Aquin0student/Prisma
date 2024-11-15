@@ -10,5 +10,6 @@ const PersonagemController = require('../controllers/PersonagemController');
 
 router.post('/personagens/criarPersonagem', PersonagemController.criarPersonagem);
 router.post('/personagens/adicionar-raca', PersonagemController.adicionarRacaAoPersonagem);
+router.post('/personagens/adicionarClasse', PersonagemController.adicionarClasseAoPersonagem);
 
 module.exports = router;

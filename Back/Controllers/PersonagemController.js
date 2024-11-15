@@ -1,5 +1,6 @@
 const Personagem = require("../Models/Personagem");
 const Race = require("../Models/Race"); // Certifique-se de que o caminho está correto
+const Class = require("../Models/Class")
 
 async function criarPersonagem(req, res) {
     try {
@@ -23,9 +24,18 @@ async function adicionarClasseAoPersonagem(req, res) {
 
         const personagem = await Personagem.findOne({where: {name: personagemName}});
         if(!personagem){
-            return res.status(404).json({ error: 'Personagem não encontrado' +
-                    '.' });
+            return res.status(404).json({ error: 'Personagem não encontrado' + '.' });
         }
+        const classe = await Class.findOne({where: {name: classe_index}})
+        if(!classe){
+            return res.status(404).json({error: 'Classe não encontrada.'})
+        }
+        personagem.class_index = classe.index_name;
+        await personagem.save();
+        res.status(200).json(personagem);
+    }catch (error) {
+        console.error('Erro ao adicionar classe ao personagem:', error);
+        res.status(500).json({ error: 'Erro ao adicionar classe ao personagem.', message: error.message });
     }
 }
 
@@ -56,4 +66,4 @@ async function adicionarRacaAoPersonagem(req, res) {
     }
 }
 
-module.exports = { adicionarRacaAoPersonagem, criarPersonagem};
+module.exports = { adicionarRacaAoPersonagem, criarPersonagem, adicionarClasseAoPersonagem};
