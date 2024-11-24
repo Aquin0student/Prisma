@@ -152,6 +152,7 @@ create table  personagem(
 
 );
 
+
 create table ability_personagem(
                                    index_personagem int,
                                    id int primary key auto_increment,

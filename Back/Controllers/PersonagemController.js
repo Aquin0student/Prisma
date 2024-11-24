@@ -11,6 +11,8 @@ async function criarPersonagem(req, res) {
             name
         });
 
+        req.session.personagemId = personagem.id;
+
         res.status(201).json(personagem); // Retorna o personagem criado
     } catch (error) {
         console.error(error);

@@ -29,11 +29,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 const authRoutes = require('./routes/auth');
 const Routes = require('./routes/routes');
 const ClassRoutes = require('./routes/Personagem');
-
+const AbilityRoutes = require('./routes/Ability')
 
 app.use('/', authRoutes);
 app.use('/', Routes);
 app.use('/', ClassRoutes);
+app.use('/', AbilityRoutes);
+
+
 
 // Define a porta do servidor
 const port = process.env.PORT || 3000;

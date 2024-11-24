@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Class = require("./Class"); // Importa a instância do Sequelize
+const Class = require("./Class");
+const Race = require("./Race");
 
 
 class Personagem extends Model {}
@@ -40,5 +41,15 @@ Personagem.init({
 });
 
 Personagem.belongsTo(Class, { foreignKey: 'class_index' });
+Personagem.belongsTo(Race, { foreignKey: 'race_index', targetKey: 'index_name' });
+
+const Ability = require("./Ability"); // Importa a instância do Sequelize
+
+
+Personagem.hasOne(Ability, {
+    foreignKey: 'index_personagem',
+    as: 'Ability',
+});
+
 
 module.exports = Personagem;
