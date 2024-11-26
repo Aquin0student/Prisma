@@ -35,6 +35,9 @@ Ability.init({
     },
     con: {
         type: DataTypes.INTEGER
+    },
+    novo: {
+        type: DataTypes.BOOLEAN
     }
 },{
     sequelize,

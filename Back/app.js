@@ -3,7 +3,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const path = require('node:path');
 const router = express.Router();
-require('dotenv').config();  // Carrega as variáveis de ambiente
+require('dotenv').config();
 
 const app = express();
 

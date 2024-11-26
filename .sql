@@ -152,17 +152,17 @@ create table  personagem(
 
 );
 
-
 create table ability_personagem(
-                                   index_personagem int,
-                                   id int primary key auto_increment,
-                                   cha int,
-                                   dex int,
-                                   `int` int,
-                                   str int,
-                                   wis int,
-                                   con int,
-                                   foreign key (index_personagem) references personagem(id)
+    index_personagem int,
+    id int primary key auto_increment,
+    cha int,
+    dex int,
+    `int` int,
+    str int,
+    wis int,
+    con int,
+    novo boolean default true,
+    foreign key (index_personagem) references personagem(id)
 );
 
 SHOW TABLES LIKE 'races';
@@ -204,4 +204,5 @@ CREATE TABLE IF NOT EXISTS subrace_traits (
 
 # SESSAO PARA RESETAR APOS TESTE
 # RESETAR O ID DA TABELA PERSONAGEM PARA 1 (NAO DEVE TER NENHUM REGISTRO PARA FUNCIONAR
-# ALTER TABLE personagem AUTO_INCREMENT = 1;
+ALTER TABLE personagem AUTO_INCREMENT = 1;
+
