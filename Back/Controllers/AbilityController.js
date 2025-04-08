@@ -3,6 +3,7 @@ const Ability = require("../Models/Ability");
 const Race = require("../Models/Race");
 const RacesAbilityBonuses = require("../Models/RacesAbilityBonuses");
 
+
 async function atribuirPontos(req, res) {
     try {
         const { cha, con, dex, int, str, wis } = req.body; // Recebe os pontos do corpo da requisição
