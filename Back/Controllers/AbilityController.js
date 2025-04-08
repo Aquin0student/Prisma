@@ -68,7 +68,7 @@ async function atribuirPontos(req, res) {
             switch (bonus.ability) {
                 case 'cha':
                     bonusCha += bonus.bonus;
-                    break;
+                    break; 
                 case 'con':
                     bonusCon += bonus.bonus;
                     break;
