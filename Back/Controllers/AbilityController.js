@@ -61,7 +61,7 @@ async function atribuirPontos(req, res) {
         let bonusInt = 0;
         let bonusStr = 0;
         let bonusWis = 0;
-
+ 
         // Adiciona os bônus de habilidade da raça aos atributos fornecidos
         for (const bonus of bonuses) {
             console.log(`Aplicando bônus: ${bonus.ability} + ${bonus.bonus}`);
