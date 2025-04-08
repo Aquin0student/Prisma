@@ -1,4 +1,4 @@
-const Personagem = require("../Models/Personagem");
+const Personagem = require("../Models/Personagem"); 
 const Ability = require("../Models/Ability");
 const Race = require("../Models/Race");
 const RacesAbilityBonuses = require("../Models/RacesAbilityBonuses");
