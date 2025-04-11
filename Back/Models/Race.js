@@ -19,7 +19,7 @@ Race.init({
     },
     alignment: {
         type: DataTypes.TEXT,
-        allowNull: false 
+        allowNull: false  
     },
     age: {
         type: DataTypes.TEXT,
