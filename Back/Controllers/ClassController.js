@@ -6,7 +6,7 @@ async function criarClasse(req, res) {
     try {
         // Verifica se os dados obrigatórios estão no corpo da requisição
         const { index_name, level, proficiency_bonus, name, hit_die } = req.body;
-
+ 
         if (!index_name || !level || !proficiency_bonus || !name || !hit_die) {
             return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
         }
