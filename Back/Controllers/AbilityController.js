@@ -82,7 +82,7 @@ async function atribuirPontos(req, res) {
                     bonusStr += bonus.bonus;
                     break;
                 case 'wis':
-                    bonusWis += bonus.bonus;
+                    bonusWis += bonus.bonus; 
                     break;
                 default:
                     break;
