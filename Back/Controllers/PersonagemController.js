@@ -52,7 +52,7 @@ async function adicionarRacaAoPersonagem(req, res) {
         }
 
         // Busca a raça pelo nome
-        const race = await Race.findOne({ where: { name: raceName } }); 
+        const race = await Race.findOne({ where: { name: raceName } });  
         if (!race) {
             return res.status(404).json({ error: 'Raça não encontrada.' });
         }
