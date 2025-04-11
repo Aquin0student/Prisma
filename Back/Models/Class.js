@@ -13,7 +13,7 @@ Class.init({
     level: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
+    }, 
     proficiency_bonus: {
         type: DataTypes.INTEGER,
         allowNull: false
