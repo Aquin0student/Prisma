@@ -32,7 +32,7 @@ Ability.init({
     },
     wis: {
         type: DataTypes.INTEGER
-    },
+    }, 
     con: {
         type: DataTypes.INTEGER
     },
