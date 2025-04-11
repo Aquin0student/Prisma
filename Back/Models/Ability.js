@@ -42,7 +42,7 @@ Ability.init({
 },{
     sequelize,
     modelName: 'Ability',
-    tableName: 'ability_personagem',
+    tableName: 'ability_personagem', 
     timestamps: false
 });
 
