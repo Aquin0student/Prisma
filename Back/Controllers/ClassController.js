@@ -39,5 +39,5 @@ async function obterClassePorNome(req, res) {
         res.status(500).json({ error: 'Erro ao buscar a classe.', message: error.message }); // Retorna erro com a mensagem detalhada
     }
 }
-
+ 
 module.exports = { criarClasse, obterClassePorNome };
