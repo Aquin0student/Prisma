@@ -32,7 +32,7 @@ async function obterClassePorNome(req, res) {
         if (classe) {
             res.json(classe); // Retorna a classe encontrada
         } else {
-            res.status(404).json({ error: 'Classe não encontrada.' }); // Retorna erro caso a classe não seja encontrada
+            res.status(404).json({ error: 'Classe não encontrada.' }); // Retorna erro caso a classe não seja encontrada 
         } 
     } catch (error) {
         console.error('Erro ao buscar classe:', error); // Log completo do erro
