@@ -28,7 +28,7 @@ Ability.init({
         type: DataTypes.INTEGER
     },
     str: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER 
     },
     wis: {
         type: DataTypes.INTEGER
