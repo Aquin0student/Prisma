@@ -25,7 +25,7 @@ Race.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    size: {
+    size: { 
         type: DataTypes.STRING,
         allowNull: false
     },
