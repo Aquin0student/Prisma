@@ -36,7 +36,7 @@ Class.init({
     },
     starting_equipment_options: {
         type: DataTypes.JSON,
-        allowNull: true 
+        allowNull: true  
     },
     proficiency_choices: {
         type: DataTypes.JSON,
