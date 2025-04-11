@@ -15,7 +15,7 @@ async function criarPersonagem(req, res) {
 
         res.status(201).json(personagem); // Retorna o personagem criado
     } catch (error) {
-        console.error(error); 
+        console.error(error);  
         res.status(500).json({ error: 'Erro ao criar o personagem.' });
     }
 }
