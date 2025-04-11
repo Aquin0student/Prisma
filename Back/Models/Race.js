@@ -12,7 +12,7 @@ Race.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false
-    },
+    }, 
     speed: {
         type: DataTypes.INTEGER,
         allowNull: false
