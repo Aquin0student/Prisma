@@ -30,7 +30,7 @@ Personagem.init({
         references: {
             model: 'Race',
             key: 'index_name'
-        },
+        }, 
         allowNull: true
     }
     }, {
