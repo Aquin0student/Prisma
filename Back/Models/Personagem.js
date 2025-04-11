@@ -38,7 +38,7 @@ Personagem.init({
         modelName: 'Personagem',
         tableName: 'personagem',
         timestamps: false
-});
+}); 
 
 Personagem.belongsTo(Class, { foreignKey: 'class_index' });
 Personagem.belongsTo(Race, { foreignKey: 'race_index', targetKey: 'index_name' });
