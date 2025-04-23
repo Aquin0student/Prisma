@@ -9,7 +9,7 @@ class Personagem extends Model {}
 Personagem.init({
     id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false, 
         primaryKey: true,
         autoIncrement: true
     },
@@ -30,7 +30,7 @@ Personagem.init({
         references: {
             model: 'Race',
             key: 'index_name'
-        },
+        }, 
         allowNull: true
     }
     }, {
@@ -38,7 +38,7 @@ Personagem.init({
         modelName: 'Personagem',
         tableName: 'personagem',
         timestamps: false
-});
+}); 
 
 Personagem.belongsTo(Class, { foreignKey: 'class_index' });
 Personagem.belongsTo(Race, { foreignKey: 'race_index', targetKey: 'index_name' });

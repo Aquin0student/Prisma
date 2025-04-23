@@ -12,20 +12,20 @@ Race.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false
-    },
+    }, 
     speed: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
     alignment: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false  
     },
     age: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    size: {
+    size: { 
         type: DataTypes.STRING,
         allowNull: false
     },

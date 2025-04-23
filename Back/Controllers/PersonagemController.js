@@ -15,7 +15,7 @@ async function criarPersonagem(req, res) {
 
         res.status(201).json(personagem); // Retorna o personagem criado
     } catch (error) {
-        console.error(error);
+        console.error(error);  
         res.status(500).json({ error: 'Erro ao criar o personagem.' });
     }
 }
@@ -52,7 +52,7 @@ async function adicionarRacaAoPersonagem(req, res) {
         }
 
         // Busca a raça pelo nome
-        const race = await Race.findOne({ where: { name: raceName } });
+        const race = await Race.findOne({ where: { name: raceName } });  
         if (!race) {
             return res.status(404).json({ error: 'Raça não encontrada.' });
         }

@@ -1,4 +1,4 @@
-const Personagem = require("../Models/Personagem");
+const Personagem = require("../Models/Personagem"); 
 const Ability = require("../Models/Ability");
 const Race = require("../Models/Race");
 const RacesAbilityBonuses = require("../Models/RacesAbilityBonuses");
@@ -62,14 +62,14 @@ async function atribuirPontos(req, res) {
         let bonusInt = 0;
         let bonusStr = 0;
         let bonusWis = 0;
-
+ 
         // Adiciona os bônus de habilidade da raça aos atributos fornecidos
         for (const bonus of bonuses) {
             console.log(`Aplicando bônus: ${bonus.ability} + ${bonus.bonus}`);
             switch (bonus.ability) {
                 case 'cha':
                     bonusCha += bonus.bonus;
-                    break;
+                    break; 
                 case 'con':
                     bonusCon += bonus.bonus;
                     break;
@@ -83,7 +83,7 @@ async function atribuirPontos(req, res) {
                     bonusStr += bonus.bonus;
                     break;
                 case 'wis':
-                    bonusWis += bonus.bonus;
+                    bonusWis += bonus.bonus; 
                     break;
                 default:
                     break;

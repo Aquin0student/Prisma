@@ -28,11 +28,11 @@ Ability.init({
         type: DataTypes.INTEGER
     },
     str: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER 
     },
     wis: {
         type: DataTypes.INTEGER
-    },
+    }, 
     con: {
         type: DataTypes.INTEGER
     },
@@ -42,7 +42,7 @@ Ability.init({
 },{
     sequelize,
     modelName: 'Ability',
-    tableName: 'ability_personagem',
+    tableName: 'ability_personagem',  
     timestamps: false
 });
 
